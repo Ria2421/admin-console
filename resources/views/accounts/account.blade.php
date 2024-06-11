@@ -20,16 +20,15 @@
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="?action=playerList" class="nav-link px-2 link-secondary">Players</a></li>
-            <li><a href="?action=itemList" class="nav-link px-2">Items</a></li>
-            <li><a href="?action=playerItem" class="nav-link px-2">Player Items</a></li>
+            <li><a href="showAccount" class="nav-link px-2 link-secondary">Accounts</a></li>
+            <li><a href="showItem" class="nav-link px-2">Items</a></li>
+            <li><a href="showHaveItem" class="nav-link px-2">Player Items</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
             <form method="POST" action="{{url('accounts/doLogout')}}">
                 @csrf
                 <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-                <input type="hidden" name="action" value="doLogout">
             </form>
         </div>
 
@@ -38,10 +37,10 @@
 
 <!-- 表示内容 -->
 <div class="container text-center bg-primary-subtle" style="width: 500px">
-    <h3 class="display-5">▼ プレイヤー一覧 ▼</h3>
+    <h3 class="display-5">▼ アカウントー一覧 ▼</h3>
 </div>
 
-<!--検索-->
+<!--検索
 <div class="text-center">
     <form method="POST" action="index.php">
         <input type="text" name="name" placeholder="名前を入力">
@@ -49,6 +48,7 @@
         <input type="hidden" name="action" value="searchPlayer">
     </form>
 </div>
+-->
 
 <br>
 

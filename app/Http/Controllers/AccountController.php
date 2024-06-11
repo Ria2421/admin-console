@@ -7,7 +7,6 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -15,15 +14,23 @@ class AccountController extends Controller
     // ログイン画面を表示する
     public function showLogin(Request $request)
     {
-        return view('accounts/login');
+        // ログインしてるかチェック
+        if ($request->session()->exists('login')) {
+            return redirect('accounts/showAccount');
+        } else {
+            return view('accounts/login');
+        }
     }
 
     // ログイン処理
     public function doLogin(Request $request)
     {
         if ($request['name'] === 'jobi' && $request['password'] === 'jobi') {
+            // セッションにログイン情報を登録
+            $request->session()->put('login', true);
+
             // 一覧表示
-            return redirect('accounts/index');
+            return redirect('accounts/showAccount');
 
         } else {
             // エラー表示
@@ -33,7 +40,7 @@ class AccountController extends Controller
     }
 
     // ログアウト処理
-    public function logout(Request $request)
+    public function dologout(Request $request)
     {
         // 指定したデータをセッションから削除
         $request->session()->forget('login');
@@ -96,7 +103,7 @@ class AccountController extends Controller
                 ['player_id' => 3, 'player_name' => 'huga', 'item_name' => 'はねのくつ', 'quantity' => 1]
             ];
 
-            return view('accounts/showHaveItem', ['haveItems' => $data]);
+            return view('accounts/haveItem', ['haveItems' => $data]);
         } else {
             // ログインしてない
 
@@ -104,26 +111,27 @@ class AccountController extends Controller
             return redirect('accounts/showLogin');
         }
     }
-
-    //- デバック -//
-    //dd関数
-    //dd($request->account_id);
-
-    //Laravel DebugBar
-    //Debugbar::info('あいうえお');
-    //Debugbar::error('えらーだよ');
-
-    /* セッションに指定のキーで値を保存
-    $request->session()->put('name', 'hoge');
-    // セッションから指定のキーの値を取得
-    $value = $request->session()->get('name');
-    // 指定したデータをセッションから削除
-    $request->session()->forget('name');
-    // セッションのデータをすべて削除
-    $request->session()->flush();
-    // セッションに指定してキーが存在するか
-    if ($request->session()->exists('name')) {
-
-    }
-    dd($value);*/
 }
+
+//- デバック -//
+//dd関数
+//dd($request->account_id);
+
+//Laravel DebugBar
+// use Barryvdh\Debugbar\Facades\Debugbar;
+//Debugbar::info('あいうえお');
+//Debugbar::error('えらーだよ');
+
+/* セッションに指定のキーで値を保存
+$request->session()->put('name', 'hoge');
+// セッションから指定のキーの値を取得
+$value = $request->session()->get('name');
+// 指定したデータをセッションから削除
+$request->session()->forget('name');
+// セッションのデータをすべて削除
+$request->session()->flush();
+// セッションに指定してキーが存在するか
+if ($request->session()->exists('name')) {
+
+}
+dd($value);*/

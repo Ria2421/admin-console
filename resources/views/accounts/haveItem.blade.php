@@ -19,16 +19,15 @@
         class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="?action=playerList" class="nav-link px-2">Players</a></li>
-            <li><a href="?action=itemList" class="nav-link px-2">Items</a></li>
-            <li><a href="?action=playerItem" class="nav-link px-2 link-secondary">Player Items</a></li>
+            <li><a href="showAccount" class="nav-link px-2">Accounts</a></li>
+            <li><a href="showItem" class="nav-link px-2">Items</a></li>
+            <li><a href="showHaveItem" class="nav-link px-2 link-secondary">Player Items</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
             <form method="POST" action="{{url('accounts/doLogout')}}">
                 @csrf
                 <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-                <input type="hidden" name="action" value="doLogout">
             </form>
         </div>
 
@@ -39,7 +38,7 @@
     <h3 class="display-5">▼ 所持アイテム一覧 ▼</h3>
 </div>
 
-<!--検索-->
+<!--検索
 <div class="text-center">
     <form method="POST" action="index.php">
         <input type="text" name="id" placeholder="IDを入力">
@@ -47,6 +46,7 @@
         <input type="hidden" name="action" value="searchPlayerItem">
     </form>
 </div>
+-->
 
 <table class="table table-bordered mx-auto p-2" style="width: 60%">
     <tr>
@@ -56,28 +56,14 @@
         <th>所持個数</th>
     </tr>
 
-    <?php
-    if (!empty($playerItems)) {    // コントローラーから渡された$usersを使って表示
-        foreach ($playerItems as $playerItem) {
-            echo '<tr>';    // trタグの開始
-
-            echo '<td>' . $playerItem['id'] . '</td>';                      // ID
-            echo '<td>' . escapeHtml($playerItem['player_name']) . '</td>'; // プレイヤー名
-            echo '<td>' . $playerItem['item_name'] . '</td>';               // アイテム名
-            echo '<td>' . $playerItem['quantity'] . '</td>';                // 所持数
-
-            echo '</tr>';   // タグ閉じ
-        }
-    } else {
-        echo '<div class="text-center">該当する検索結果はありませんでした。</div>';
-    }
-
-    // 文字列を無害化し、スクリプト等を弾くようにする関数 (XSS攻撃を防ぐ)
-    function escapeHtml($str) {
-        return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
-    }
-
-    ?>
+    @foreach($haveItems as $haveItem)
+        <tr>
+            <td>{{$haveItem['player_id']}}</td>
+            <td>{{$haveItem['player_name']}}</td>
+            <td>{{$haveItem['item_name']}}</td>
+            <td>{{$haveItem['quantity']}}</td>
+        </tr>
+    @endforeach
 
 </table>
 

@@ -8,9 +8,8 @@
 use App\Http\Controllers\AccountController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// ログイン画面の表示
+Route::get('/', [AccountController::class, 'showLogin']);
 
 // ログイン画面の表示
 Route::get('accounts/showLogin', [AccountController::class, 'showLogin']);
@@ -19,7 +18,7 @@ Route::get('accounts/showLogin', [AccountController::class, 'showLogin']);
 Route::post('accounts/doLogin', [AccountController::class, 'doLogin']);
 
 // ログアウト処理
-Route::get('accounts/doLogout', [AccountController::class, 'doLogout']);
+Route::post('accounts/doLogout', [AccountController::class, 'doLogout']);
 
 // アカウントの表示
 Route::get('accounts/showAccount/{account_id?}', [AccountController::class, 'showAccount']);
